@@ -1,3 +1,4 @@
+/* jslint:disable */
 /**
  * @fileOverview An extension to Exhibit adding a view using SIMILE Timeline.
  * @author David Huynh
@@ -38,7 +39,7 @@
             "delayCreation.exhibit",
             delayID
         );
-        
+
         Exhibit.TimeExtension = {
             "params": {
                 "bundle": true,
@@ -55,7 +56,7 @@
                 "sv"
             ]
         };
-        
+
         javascriptFiles = [
             "timeline-view.js"
         ];
@@ -67,7 +68,7 @@
             "timelinePrefix": String,
             "timelineVersion": String
         };
-        
+
         if (typeof Exhibit_TimeExtension_urlPrefix === "string") {
             Exhibit.TimeExtension.urlPrefix = Exhibit_TimeExtension_urlPrefix;
             if (typeof Exhibit_TimeExtension_parameters !== "undefined") {
@@ -82,13 +83,13 @@
                 return;
             }
             Exhibit.TimeExtension.urlPrefix = url.substr(0, url.indexOf("time-extension.js"));
-            
+
             Exhibit.parseURLParameters(url, Exhibit.TimeExtension.params, paramTypes);
         }
-        
+
         scriptURLs = [];
         cssURLs = [];
-        
+
         if (typeof SimileAjax === "undefined") {
             /**
              * Ugly SimileAjax hack.  See load-simile-ajax.js.
@@ -96,9 +97,9 @@
             scriptURLs.push(Exhibit.TimeExtension.urlPrefix + "load-simile-ajax.js");
         }
         if (typeof Timeline === "undefined") {
-            scriptURLs.push(Exhibit.TimeExtension.params.timelinePrefix + "/timeline/" + Exhibit.TimeExtension.params.timelineVersion + "/timeline-api.js?bundle=true");
+            scriptURLs.push('++resource++eea.simile.timeline/timeline-api.js?bundle=true')
         }
-        
+
         if (Exhibit.TimeExtension.params.bundle) {
             scriptURLs.push(Exhibit.TimeExtension.urlPrefix + "time-extension-bundle.js");
             cssURLs.push(Exhibit.TimeExtension.urlPrefix + "styles/time-extension-bundle.css");
@@ -106,12 +107,12 @@
             Exhibit.prefixURLs(scriptURLs, Exhibit.TimeExtension.urlPrefix + "scripts/", javascriptFiles);
             Exhibit.prefixURLs(cssURLs, Exhibit.TimeExtension.urlPrefix + "styles/", cssFiles);
         }
-    
+
         localesToLoad = Exhibit.Localization.getLoadableLocales(Exhibit.TimeExtension.locales);
         for (i = 0; i < localesToLoad.length; i++) {
             scriptURLs.push(Exhibit.TimeExtension.urlPrefix + "locales/" + localesToLoad[i] + "/locale.js");
         }
-        
+
         Exhibit.includeCssFiles(document, null, cssURLs);
         Exhibit.includeJavascriptFiles(null, scriptURLs);
 
